@@ -92,7 +92,7 @@ export default function Onboarding () {
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-brand-400/5 rounded-full blur-3xl"></div>
 
-        <div className="relative z-10 max-w-3xl mx-auto px-6">
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <span className="inline-block text-xs font-semibold text-brand-400 uppercase tracking-widest mb-4">Interactive Demo</span>
             <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white">Try the COSAI experience</h1>
@@ -104,7 +104,7 @@ export default function Onboarding () {
               <div className="h-full bg-brand-500 rounded-r-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
             </div>
 
-            <div className="p-8 md:p-10">
+            <div className="p-5 sm:p-8 md:p-10">
               <div className="flex items-center justify-between mb-8">
                 <span className="text-xs font-medium text-brand-400 uppercase tracking-wider">Step {step} of {totalSteps}</span>
                 <div className="flex gap-1.5">

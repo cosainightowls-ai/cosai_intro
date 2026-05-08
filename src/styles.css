@@ -10,11 +10,16 @@
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+html, body { overflow-x: hidden; max-width: 100%; }
 body {
   margin: 0;
   -webkit-tap-highlight-color: transparent;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: none;
+}
+/* Prevent long unbreakable strings from forcing horizontal overflow on small screens */
+@media (max-width: 640px) {
+  h1, h2, h3, p, a, span, li { overflow-wrap: anywhere; word-break: break-word; }
 }
 @media (max-width: 768px) {
   html { scroll-padding-top: 80px; }
