@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSAI — Chief of Assistant AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe',
+                            300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6',
+                            600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af',
+                            900: '#1e3a8a', 950: '#172554'
+                        },
+                        slate: { 850: '#151f2e' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.7s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .float-animation { animation: float 6s ease-in-out infinite; }
+        .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
+        .onboarding-step { display: none; }
+        .onboarding-step.active { display: block; animation: fadeInUp 0.5s ease-out; }
+        .chip { transition: all 150ms ease; cursor: pointer; user-select: none; }
+        .chip.selected { background-color: #2563eb; color: #fff; border-color: #2563eb; }
+        .progress-bar-fill { transition: width 0.5s ease; }
+        .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); }
+    </style>
+</head>
+<body class="font-sans text-slate-900 bg-white antialiased">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5">
+                <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
+                    <i data-lucide="brain" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="text-lg font-semibold tracking-tight">COSAI</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-sm text-slate-500 hover:text-brand-600 transition-colors">Features</a>
+                <a href="#how-it-works" class="text-sm text-slate-500 hover:text-brand-600 transition-colors">How It Works</a>
+                <a href="#try-it" class="text-sm text-slate-500 hover:text-brand-600 transition-colors">Try It</a>
+            </div>
+            <a href="#try-it" class="hidden md:inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shadow-sm">
+                Join Waitlist
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+            <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-500 hover:text-slate-900">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-white/95 backdrop-blur-xl border-t border-slate-100 px-6 py-4 space-y-3">
+            <a href="#features" class="block text-sm text-slate-600 py-2">Features</a>
+            <a href="#how-it-works" class="block text-sm text-slate-600 py-2">How It Works</a>
+            <a href="#try-it" class="block text-sm text-slate-600 py-2">Try It</a>
+            <a href="#try-it" class="inline-flex items-center gap-2 bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-lg mt-2">Join Waitlist</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center overflow-hidden bg-slate-900">
+        <div class="absolute inset-0">
+            <img src="https://picsum.photos/seed/cosai-hero-dark/1920/1080.jpg" alt="" class="w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+        </div>
+        <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/3 left-1/3 w-72 h-72 bg-brand-400/10 rounded-full blur-3xl"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-16 grid lg:grid-cols-2 gap-16 items-center w-full">
+            <div>
+                <div class="inline-flex items-center gap-2 bg-brand-600/10 border border-brand-500/20 text-brand-400 text-xs font-medium px-3 py-1.5 rounded-full mb-8 animate-fade-in-up" style="opacity:0;">
+                    <span class="relative flex h-2 w-2">
+                        <span class="pulse-ring absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-400"></span>
+                    </span>
+                    Now in Early Access
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-[1.1] animate-fade-in-up delay-100" style="opacity:0;">
+                    Your Chief of<br>
+                    <span class="text-brand-400">Assistant AI</span>
+                </h1>
+                <p class="mt-6 text-lg text-slate-400 leading-relaxed max-w-xl animate-fade-in-up delay-200" style="opacity:0;">
+                    COSAI filters the noise from social media, news, and your environment — delivering only the actionable insights that matter. It learns your preferences, adapts in real time, and gets smarter every day.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 animate-fade-in-up delay-300" style="opacity:0;">
+                    <a href="#try-it" class="inline-flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-brand-600/25 hover:shadow-xl hover:shadow-brand-600/30">
+                        Try the Demo
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#how-it-works" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white font-medium px-8 py-3.5 rounded-xl transition-all border border-white/10">
+                        <i data-lucide="play-circle" class="w-4 h-4"></i>
+                        See How It Works
+                    </a>
+                </div>
+                <div class="mt-12 flex items-center gap-6 animate-fade-in-up delay-400" style="opacity:0;">
+                    <div class="flex -space-x-2">
+                        <img src="https://picsum.photos/seed/user1/40/40.jpg" class="w-8 h-8 rounded-full border-2 border-slate-900" alt="">
+                        <img src="https://picsum.photos/seed/user2/40/40.jpg" class="w-8 h-8 rounded-full border-2 border-slate-900" alt="">
+                        <img src="https://picsum.photos/seed/user3/40/40.jpg" class="w-8 h-8 rounded-full border-2 border-slate-900" alt="">
+                        <img src="https://picsum.photos/seed/user4/40/40.jpg" class="w-8 h-8 rounded-full border-2 border-slate-900" alt="">
+                    </div>
+                    <div>
+                        <p class="text-sm text-white font-medium">2,400+ on waitlist</p>
+                        <p class="text-xs text-slate-500">Join the future of personal AI</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Visual -->
+            <div class="hidden lg:block animate-fade-in-up delay-300 float-animation" style="opacity:0;">
+                <div class="glass rounded-2xl p-6 max-w-md ml-auto">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-9 h-9 bg-brand-600 rounded-lg flex items-center justify-center">
+                            <i data-lucide="brain" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <div>
+                            <p class="text-white text-sm font-medium">COSAI Morning Brief</p>
+                            <p class="text-slate-500 text-xs">Personalized for you &bull; 7:32 AM</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white/5 rounded-xl p-4 border border-white/5">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i data-lucide="cloud-sun" class="w-4 h-4 text-amber-400"></i>
+                                <span class="text-xs text-slate-400">Weather &bull; San Francisco</span>
+                            </div>
+                            <p class="text-white text-sm">22&deg;C, partly cloudy. Great day for your scheduled run — no rain expected until 6 PM.</p>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 border border-white/5">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i data-lucide="trending-up" class="w-4 h-4 text-green-400"></i>
+                                <span class="text-xs text-slate-400">Tech News &bull; 3 relevant</span>
+                            </div>
+                            <p class="text-white text-sm">OpenAI released GPT-5. Based on your interests: 2 AI papers, 1 funding round in your sector.</p>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4 border border-white/5">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i data-lucide="zap" class="w-4 h-4 text-brand-400"></i>
+                                <span class="text-xs text-slate-400">Action Item</span>
+                            </div>
+                            <p class="text-white text-sm">Your competitor just launched a feature you discussed last week. Want me to draft a response strategy?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500">
+            <span class="text-xs">Scroll to explore</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce"></i>
+        </div>
+    </section>
+
+    <!-- Integrations / Sources -->
+    <section class="py-12 border-b border-slate-100 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="text-center text-xs font-medium text-slate-400 uppercase tracking-widest mb-8">Pulls signal from the sources you already use</p>
+            <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
+                <div class="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i><span class="text-sm font-medium">Twitter / X</span></div>
+                <div class="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors"><i data-lucide="message-circle" class="w-5 h-5"></i><span class="text-sm font-medium">Reddit</span></div>
+                <div class="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors"><i data-lucide="newspaper" class="w-5 h-5"></i><span class="text-sm font-medium">News APIs</span></div>
+                <div class="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors"><i data-lucide="cloud-sun" class="w-5 h-5"></i><span class="text-sm font-medium">Weather</span></div>
+                <div class="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors"><i data-lucide="calendar" class="w-5 h-5"></i><span class="text-sm font-medium">Calendar</span></div>
+                <div class="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors"><i data-lucide="rss" class="w-5 h-5"></i><span class="text-sm font-medium">RSS Feeds</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <span class="inline-block text-xs font-semibold text-brand-600 uppercase tracking-widest mb-4">The Problem</span>
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-6">You're drowning in information.<br>Starving for insight.</h2>
+            <p class="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+                Every day, professionals scroll through hundreds of headlines, posts, and alerts — only to find a handful that actually matter. The signal-to-noise ratio is broken.
+            </p>
+            <div class="mt-16 grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <p class="text-4xl font-bold text-brand-600">6h</p>
+                    <p class="text-sm text-slate-500 mt-2">Average daily info consumption</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-4xl font-bold text-brand-600">94%</p>
+                    <p class="text-sm text-slate-500 mt-2">Of consumed info is irrelevant</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-4xl font-bold text-brand-600">3x</p>
+                    <p class="text-sm text-slate-500 mt-2">Decision fatigue vs. 5 years ago</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-slate-50 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="inline-block text-xs font-semibold text-brand-600 uppercase tracking-widest mb-4">Core Capabilities</span>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">Intelligence that adapts to <span class="text-brand-600">you</span></h2>
+                <p class="mt-4 text-slate-500 text-lg">COSAI doesn't just fetch information — it understands context, filters noise, and delivers what you need to act on.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-600 transition-colors duration-300">
+                        <i data-lucide="filter" class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Smart Filtering</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Processes thousands of signals from social media and news, surfacing only what's relevant and actionable for your specific needs.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-600 transition-colors duration-300">
+                        <i data-lucide="map-pin" class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Context Awareness</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Reads your location, weather, time of day, and routines to deliver insights that are contextually relevant right now.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-600 transition-colors duration-300">
+                        <i data-lucide="brain-circuit" class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Adaptive Learning</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Continuously trains on your preferences, feedback, and behavior. The more you use it, the sharper it gets.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-600 transition-colors duration-300">
+                        <i data-lucide="zap" class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Actionable Output</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">No more information overload. Every insight comes with a suggested action — draft a reply, schedule a meeting, set a reminder.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-600 transition-colors duration-300">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Privacy First</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Your data stays yours. On-device processing for sensitive inputs. End-to-end encryption. Zero third-party data selling.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-200 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-600 transition-colors duration-300">
+                        <i data-lucide="layers" class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Multi-Source Fusion</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Combines signals from Twitter, Reddit, News APIs, weather services, and your calendar into one unified intelligence layer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-24 bg-white border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="inline-block text-xs font-semibold text-brand-600 uppercase tracking-widest mb-4">How It Works</span>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">From chaos to clarity in three steps</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 lg:gap-12">
+                <div class="relative text-center">
+                    <div class="w-14 h-14 bg-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-brand-600/20">
+                        <span class="text-white font-bold text-lg">1</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Connect Your Sources</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Link social accounts, news preferences, and grant location access. Takes under 2 minutes.</p>
+                    <div class="hidden md:block absolute top-7 left-[calc(50%+40px)] w-[calc(100%-80px)] h-px bg-gradient-to-r from-brand-300 to-brand-100"></div>
+                </div>
+                <div class="relative text-center">
+                    <div class="w-14 h-14 bg-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-brand-600/20">
+                        <span class="text-white font-bold text-lg">2</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">COSAI Filters & Learns</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">AI processes streams in real time, applying your preferences and context to separate signal from noise.</p>
+                    <div class="hidden md:block absolute top-7 left-[calc(50%+40px)] w-[calc(100%-80px)] h-px bg-gradient-to-r from-brand-300 to-brand-100"></div>
+                </div>
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-brand-600/20">
+                        <span class="text-white font-bold text-lg">3</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-3">Act on What Matters</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Receive concise, actionable briefs with suggested next steps — not another feed to scroll.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Try It / Demo Onboarding -->
+    <section id="try-it" class="py-24 bg-slate-900 relative overflow-hidden">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-brand-400/5 rounded-full blur-3xl"></div>
+
+        <div class="relative z-10 max-w-3xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="inline-block text-xs font-semibold text-brand-400 uppercase tracking-widest mb-4">Interactive Demo</span>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-white">Try the COSAI experience</h2>
+                <p class="mt-4 text-slate-400 text-lg">Walk through a simulated onboarding to see how COSAI personalizes itself to you.</p>
+            </div>
+
+            <!-- Onboarding Card -->
+            <div class="glass rounded-2xl overflow-hidden">
+                <!-- Progress Bar -->
+                <div class="h-1 bg-white/5">
+                    <div id="progress-bar" class="progress-bar-fill h-full bg-brand-500 rounded-r-full" style="width: 20%"></div>
+                </div>
+
+                <div class="p-8 md:p-10">
+                    <!-- Step indicators -->
+                    <div class="flex items-center justify-between mb-8">
+                        <span id="step-label" class="text-xs font-medium text-brand-400 uppercase tracking-wider">Step 1 of 5</span>
+                        <div class="flex gap-1.5">
+                            <div class="step-dot w-2 h-2 rounded-full bg-brand-500" data-step="1"></div>
+                            <div class="step-dot w-2 h-2 rounded-full bg-white/20" data-step="2"></div>
+                            <div class="step-dot w-2 h-2 rounded-full bg-white/20" data-step="3"></div>
+                            <div class="step-dot w-2 h-2 rounded-full bg-white/20" data-step="4"></div>
+                            <div class="step-dot w-2 h-2 rounded-full bg-white/20" data-step="5"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Name & Role -->
+                    <div class="onboarding-step active" data-step="1">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-brand-600/20 rounded-xl flex items-center justify-center">
+                                <i data-lucide="user" class="w-5 h-5 text-brand-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-white text-lg font-semibold">Welcome to COSAI</h3>
+                                <p class="text-slate-400 text-sm">Let's get to know you</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm text-slate-300 mb-1.5">Your name</label>
+                                <input id="user-name" type="text" placeholder="e.g. Alex" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm text-slate-300 mb-1.5">Your role</label>
+                                <input id="user-role" type="text" placeholder="e.g. Product Manager, Founder, Analyst" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-slate-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Interests -->
+                    <div class="onboarding-step" data-step="2">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-brand-600/20 rounded-xl flex items-center justify-center">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-brand-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-white text-lg font-semibold">Select your interests</h3>
+                                <p class="text-slate-400 text-sm">Choose topics you want COSAI to track</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2" id="interests-container">
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="AI & Machine Learning">AI & Machine Learning</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Startups & VC">Startups & VC</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Markets & Finance">Markets & Finance</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Climate & Energy">Climate & Energy</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Product Design">Product Design</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Cybersecurity">Cybersecurity</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Health & Biotech">Health & Biotech</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Crypto & Web3">Crypto & Web3</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Engineering">Engineering</button>
+                            <button class="chip px-4 py-2 rounded-full border border-white/15 text-sm text-slate-300 hover:border-brand-500 hover:text-brand-400" data-value="Leadership">Leadership</button>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-4">Select at least 2 topics</p>
+                    </div>
+
+                    <!-- Step 3: Sources -->
+                    <div class="onboarding-step" data-step="3">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-brand-600/20 rounded-xl flex items-center justify-center">
+                                <i data-lucide="rss" class="w-5 h-5 text-brand-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-white text-lg font-semibold">Connect your sources</h3>
+                                <p class="text-slate-400 text-sm">Where should COSAI pull information from?</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3" id="sources-container">
+                            <button class="source-item w-full flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-brand-500/50 transition-all text-left" data-value="twitter">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="twitter" class="w-5 h-5 text-slate-400"></i>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Twitter / X</p>
+                                        <p class="text-slate-500 text-xs">Trending topics, follows, lists</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 rounded border border-white/20 flex items-center justify-center source-check"></div>
+                            </button>
+                            <button class="source-item w-full flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-brand-500/50 transition-all text-left" data-value="reddit">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="message-circle" class="w-5 h-5 text-slate-400"></i>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Reddit</p>
+                                        <p class="text-slate-500 text-xs">Subreddits, discussions, AMAs</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 rounded border border-white/20 flex items-center justify-center source-check"></div>
+                            </button>
+                            <button class="source-item w-full flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-brand-500/50 transition-all text-left" data-value="news">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="newspaper" class="w-5 h-5 text-slate-400"></i>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">News APIs</p>
+                                        <p class="text-slate-500 text-xs">Reuters, AP, Bloomberg, TechCrunch</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 rounded border border-white/20 flex items-center justify-center source-check"></div>
+                            </button>
+                            <button class="source-item w-full flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-brand-500/50 transition-all text-left" data-value="calendar">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="calendar" class="w-5 h-5 text-slate-400"></i>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Calendar & Email</p>
+                                        <p class="text-slate-500 text-xs">Context from your schedule & communications</p>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 rounded border border-white/20 flex items-center justify-center source-check"></div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Context -->
+                    <div class="onboarding-step" data-step="4">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 bg-brand-600/20 rounded-xl flex items-center justify-center">
+                                <i data-lucide="compass" class="w-5 h-5 text-brand-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-white text-lg font-semibold">Enable context signals</h3>
+                                <p class="text-slate-400 text-sm">Help COSAI understand your environment</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 rounded-xl border border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="map-pin" class="w-5 h-5 text-brand-400"></i>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Location Access</p>
+                                        <p class="text-slate-500 text-xs">Local news, weather, events</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="toggle-location" class="sr-only peer" checked>
+                                    <div class="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:bg-brand-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-4 rounded-xl border border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="cloud-sun" class="w-5 h-5 text-amber-400"></i>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Weather Integration</p>
+                                        <p class="text-slate-500 text-xs">Activity suggestions, commute alerts</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="toggle-weather" class="sr-only peer" checked>
+                                    <div class="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:bg-brand-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-4 rounded-xl border border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="clock" class="w-5 h-5 text-emerald-400"></i>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Routine Detection</p>
+                                        <p class="text-slate-500 text-xs">Learn your daily patterns for smarter timing</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="toggle-routine" class="sr-only peer">
+                                    <div class="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:bg-brand-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Preview & Waitlist -->
+                    <div class="onboarding-step" data-step="5">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-brand-600/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i data-lucide="check-circle-2" class="w-8 h-8 text-brand-400"></i>
+                            </div>
+                            <h3 class="text-white text-xl font-semibold mb-2">Your COSAI is ready!</h3>
+                            <p class="text-slate-400 text-sm">Here's a preview of your personalized brief</p>
+                        </div>
+
+                        <div id="preview-brief" class="space-y-3 mb-8"></div>
+
+                        <div class="text-center">
+                            <p class="text-slate-400 text-sm mb-5">COSAI is currently in early access. Join the waitlist to be among the first to experience it.</p>
+                            <a href="https://forms.gle/" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-medium px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-brand-600/25 w-full sm:w-auto">
+                                <i data-lucide="rocket" class="w-4 h-4"></i>
+                                Join the Waitlist
+                            </a>
+                            <p class="text-xs text-slate-500 mt-3">You'll be redirected to our sign-up form</p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div id="step-nav" class="flex items-center justify-between mt-8 pt-6 border-t border-white/5">
+                        <button id="btn-prev" class="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors invisible">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            Back
+                        </button>
+                        <button id="btn-next" class="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium px-6 py-2.5 rounded-xl transition-all shadow-sm">
+                            Continue
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-white border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="inline-block text-xs font-semibold text-brand-600 uppercase tracking-widest mb-4">Early Feedback</span>
+                <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">What early testers say</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">"COSAI replaced my 45-minute morning scroll with a 2-minute brief that actually matters. It's like having a chief of staff for information."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/testimonial1/48/48.jpg" class="w-10 h-10 rounded-full" alt="">
+                        <div>
+                            <p class="text-sm font-medium">Sarah Chen</p>
+                            <p class="text-xs text-slate-400">VP of Product</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">"The adaptive learning is real. After a week, it knew I'd want to see that cybersecurity funding round before I even searched for it."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/testimonial2/48/48.jpg" class="w-10 h-10 rounded-full" alt="">
+                        <div>
+                            <p class="text-sm font-medium">Marcus Rivera</p>
+                            <p class="text-xs text-slate-400">Founder & CEO</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100">
+                    <div class="flex items-center gap-1 mb-4">
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-6">"Location-aware briefs are a game changer. COSAI told me about a tech meetup near my hotel that I'd have completely missed otherwise."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://picsum.photos/seed/testimonial3/48/48.jpg" class="w-10 h-10 rounded-full" alt="">
+                        <div>
+                            <p class="text-sm font-medium">Emily Tanaka</p>
+                            <p class="text-xs text-slate-400">CTO</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 bg-brand-600 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-brand-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-50"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-brand-700 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 opacity-50"></div>
+        <div class="relative z-10 max-w-3xl mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-white mb-4">Ready to cut through the noise?</h2>
+            <p class="text-brand-100 text-lg mb-10 max-w-xl mx-auto">Join thousands of professionals who are reclaiming their attention with COSAI.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#try-it" class="inline-flex items-center justify-center gap-2 bg-white text-brand-700 hover:bg-brand-50 font-medium px-8 py-3.5 rounded-xl transition-all shadow-lg">
+                    Try the Demo
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <a href="https://forms.gle/" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-brand-700 hover:bg-brand-800 text-white font-medium px-8 py-3.5 rounded-xl transition-all border border-brand-500">
+                    <i data-lucide="bell" class="w-4 h-4"></i>
+                    Join Waitlist
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
+                            <i data-lucide="brain" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-white tracking-tight">COSAI</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-sm">Chief of Assistant AI — your intelligent filter for a noisy world. Delivering actionable insights, not information overload.</p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="#" class="text-slate-500 hover:text-brand-400 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-slate-500 hover:text-brand-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                        <a href="#" class="text-slate-500 hover:text-brand-400 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2.5">
+                        <li><a href="#features" class="text-slate-400 text-sm hover:text-brand-400 transition-colors">Features</a></li>
+                        <li><a href="#how-it-works" class="text-slate-400 text-sm hover:text-brand-400 transition-colors">How It Works</a></li>
+                        <li><a href="#try-it" class="text-slate-400 text-sm hover:text-brand-400 transition-colors">Try It</a></li>
+                        <li><a href="https://forms.gle/" target="_blank" class="text-slate-400 text-sm hover:text-brand-400 transition-colors">Waitlist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-sm font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2.5">
+                        <li><a href="#" class="text-slate-400 text-sm hover:text-brand-400 transition-colors">About</a></li>
+                        <li><a href="#" class="text-slate-400 text-sm hover:text-brand-400 transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-slate-400 text-sm hover:text-brand-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-slate-400 text-sm hover:text-brand-400 transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-500 text-xs">&copy; 2025 COSAI. All rights reserved.</p>
+                <p class="text-slate-500 text-xs">Designed with intelligence in mind.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white/90', 'backdrop-blur-xl', 'shadow-sm', 'border-b', 'border-slate-100');
+            } else {
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-xl', 'shadow-sm', 'border-b', 'border-slate-100');
+            }
+        });
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        let currentStep = 1;
+        const totalSteps = 5;
+        const selectedInterests = new Set();
+        const selectedSources = new Set();
+
+        const btnNext = document.getElementById('btn-next');
+        const btnPrev = document.getElementById('btn-prev');
+        const progressBar = document.getElementById('progress-bar');
+        const stepLabel = document.getElementById('step-label');
+        const stepDots = document.querySelectorAll('.step-dot');
+        const stepNav = document.getElementById('step-nav');
+
+        function updateUI() {
+            document.querySelectorAll('.onboarding-step').forEach(step => {
+                step.classList.toggle('active', parseInt(step.dataset.step) === currentStep);
+            });
+
+            progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
+            stepLabel.textContent = `Step ${currentStep} of ${totalSteps}`;
+
+            stepDots.forEach(dot => {
+                const step = parseInt(dot.dataset.step);
+                dot.classList.toggle('bg-brand-500', step <= currentStep);
+                dot.classList.toggle('bg-white/20', step > currentStep);
+            });
+
+            btnPrev.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+
+            if (currentStep === totalSteps) {
+                btnNext.style.display = 'none';
+            } else {
+                btnNext.style.display = 'inline-flex';
+            }
+
+            stepNav.style.justifyContent = currentStep === 1 ? 'flex-end' : 'space-between';
+
+            if (currentStep === totalSteps - 1) {
+                btnNext.innerHTML = 'Generate Preview <i data-lucide="sparkles" class="w-4 h-4"></i>';
+            } else {
+                btnNext.innerHTML = 'Continue <i data-lucide="arrow-right" class="w-4 h-4"></i>';
+            }
+            lucide.createIcons();
+        }
+
+        function validateStep() {
+            if (currentStep === 1) {
+                const name = document.getElementById('user-name').value.trim();
+                if (!name) {
+                    document.getElementById('user-name').classList.add('border-red-500');
+                    document.getElementById('user-name').focus();
+                    return false;
+                }
+                document.getElementById('user-name').classList.remove('border-red-500');
+                return true;
+            }
+            if (currentStep === 2) {
+                return selectedInterests.size >= 2;
+            }
+            if (currentStep === 3) {
+                return selectedSources.size >= 1;
+            }
+            return true;
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (!validateStep()) {
+                btnNext.classList.add('animate-pulse');
+                setTimeout(() => btnNext.classList.remove('animate-pulse'), 500);
+                return;
+            }
+            if (currentStep < totalSteps) {
+                currentStep++;
+                if (currentStep === totalSteps) {
+                    generatePreview();
+                }
+                updateUI();
+            }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        document.querySelectorAll('#interests-container .chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const value = chip.dataset.value;
+                if (selectedInterests.has(value)) {
+                    selectedInterests.delete(value);
+                    chip.classList.remove('selected');
+                } else {
+                    selectedInterests.add(value);
+                    chip.classList.add('selected');
+                }
+            });
+        });
+
+        document.querySelectorAll('.source-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const value = item.dataset.value;
+                const check = item.querySelector('.source-check');
+                if (selectedSources.has(value)) {
+                    selectedSources.delete(value);
+                    item.classList.remove('border-brand-500');
+                    item.classList.add('border-white/10');
+                    check.innerHTML = '';
+                    check.classList.remove('bg-brand-600', 'border-brand-600');
+                    check.classList.add('border-white/20');
+                } else {
+                    selectedSources.add(value);
+                    item.classList.add('border-brand-500');
+                    item.classList.remove('border-white/10');
+                    check.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                    check.classList.add('bg-brand-600', 'border-brand-600');
+                    check.classList.remove('border-white/20');
+                }
+            });
+        });
+
+        function generatePreview() {
+            const name = document.getElementById('user-name').value.trim() || 'there';
+            const role = document.getElementById('user-role').value.trim();
+            const locationOn = document.getElementById('toggle-location').checked;
+            const weatherOn = document.getElementById('toggle-weather').checked;
+
+            const previewContainer = document.getElementById('preview-brief');
+            previewContainer.innerHTML = '';
+
+            const greeting = document.createElement('div');
+            greeting.className = 'bg-brand-600/10 border border-brand-500/20 rounded-xl p-5 text-center';
+            greeting.innerHTML = `
+                <p class="text-white text-sm font-medium">&#9728;&#65039; Good morning, ${name}!</p>
+                <p class="text-slate-400 text-xs mt-1">Here's your personalized COSAI brief for today</p>
+            `;
+            previewContainer.appendChild(greeting);
+
+            if (weatherOn) {
+                const weatherCard = document.createElement('div');
+                weatherCard.className = 'bg-white/5 rounded-xl p-4 border border-white/5';
+                weatherCard.innerHTML = `
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                        <span class="text-xs text-slate-400">Weather ${locationOn ? '&bull; Your Area' : ''}</span>
+                    </div>
+                    <p class="text-white text-sm">22&deg;C and clear. Optimal conditions for your afternoon run — UV index moderate.</p>
+                `;
+                previewContainer.appendChild(weatherCard);
+            }
+
+            const interestArray = Array.from(selectedInterests);
+            const newsMap = {
+                'AI & Machine Learning': { icon: '&#129302;', text: 'New transformer architecture achieves 40% efficiency gains. 2 papers match your research interests.' },
+                'Startups & VC': { icon: '&#128640;', text: 'Series A funding in EdTech surged 28% this quarter. 3 companies in your watchlist raised rounds.' },
+                'Markets & Finance': { icon: '&#128200;', text: 'Fed signals rate hold. Your portfolio sectors projected to benefit — detailed analysis ready.' },
+                'Climate & Energy': { icon: '&#127757;', text: 'EU carbon border tax enters next phase. 5 companies in your sector flagged for impact.' },
+                'Product Design': { icon: '&#127912;', text: 'Figma launched AI-powered prototyping. Competitor analysis based on your product stack available.' },
+                'Cybersecurity': { icon: '&#128274;', text: 'Critical vulnerability in OpenSSL variants. Your tech stack may be affected — patch timeline inside.' },
+                'Health & Biotech': { icon: '&#129716;', text: 'FDA fast-tracked approval for a novel mRNA therapy. Related to your biotech watchlist.' },
+                'Crypto & Web3': { icon: '&#2699;&#65039;', text: 'Ethereum L2 adoption up 340%. DeFi protocol you follow reached $1B TVL milestone.' },
+                'Engineering': { icon: '&#9881;&#65039;', text: 'Rust 2.0 roadmap released with major async improvements. Relevant to your backend stack.' },
+                'Leadership': { icon: '&#128081;', text: 'New HBR study: remote team effectiveness framework. Aligns with your management reading list.' }
+            };
+
+            const showInterests = interestArray.slice(0, 3);
+            showInterests.forEach(interest => {
+                if (newsMap[interest]) {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white/5 rounded-xl p-4 border border-white/5';
+                    card.innerHTML = `
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-sm">${newsMap[interest].icon}</span>
+                            <span class="text-xs text-slate-400">${interest}</span>
+                        </div>
+                        <p class="text-white text-sm">${newsMap[interest].text}</p>
+                    `;
+                    previewContainer.appendChild(card);
+                }
+            });
+
+            const actionCard = document.createElement('div');
+            actionCard.className = 'bg-brand-600/10 border border-brand-500/20 rounded-xl p-4';
+            actionCard.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    <span class="text-xs text-brand-400 font-medium">Suggested Action</span>
+                </div>
+                <p class="text-white text-sm">${role ? `As a ${role}, ` : ''}you may want to review the ${showInterests[0] || 'latest'} update first. Want me to draft a summary or set a reminder?</p>
+            `;
+            previewContainer.appendChild(actionCard);
+
+            const sourceNames = Array.from(selectedSources).map(s => {
+                const map = { twitter: 'Twitter/X', reddit: 'Reddit', news: 'News APIs', calendar: 'Calendar' };
+                return map[s];
+            });
+            const sourcesCard = document.createElement('div');
+            sourcesCard.className = 'flex items-center gap-2 justify-center pt-2';
+            sourcesCard.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                <span class="text-xs text-slate-500">Sources: ${sourceNames.join(', ')} ${locationOn ? '&bull; Location active' : ''} ${weatherOn ? '&bull; Weather active' : ''}</span>
+            `;
+            previewContainer.appendChild(sourcesCard);
+        }
+
+        // Scroll animations
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                    entry.target.style.opacity = '1';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section > div > .text-center, section > div > .grid').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

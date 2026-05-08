@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="COSAI is your Chief of Assistant AI: it filters social media, news, and your environment so you only see what matters. Personalized briefs, context-aware suggestions, private by default." />
+    <meta name="keywords" content="AI chief of staff, COSAI, news filter, social media filter, personal AI assistant, smart digest, contextual recommendations, attention management, signal from noise, AI brief" />
+    <meta name="author" content="COSAI" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="COSAI — Chief of Assistant AI | Signal from the noise" />
+    <meta property="og:description" content="An AI assistant that filters the noise from feeds, news, and your day — and tells you only what matters." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cosai.app/" />
+    <meta property="og:image" content="https://cosai.app/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="COSAI — Chief of Assistant AI" />
+    <meta name="twitter:description" content="Filter the noise. Keep what matters." />
+    <link rel="canonical" href="https://cosai.app/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              serif: ['"IBM Plex Serif"', 'serif'],
+              mono: ['"IBM Plex Mono"', 'monospace']
+            },
+            colors: {
+              brand: {
+                50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',
+                400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',
+                800:'#1e40af',900:'#1e3a8a',950:'#172554'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "COSAI",
+      "alternateName": "Chief of Assistant AI",
+      "description": "AI assistant that filters social media, news, and contextual signals into a personalized daily brief.",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "Web, iOS, Android",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "url": "https://cosai.app/"
+    }
+    </script>
+    <title>COSAI — Chief of Assistant AI | Filter the noise, keep what matters</title>
+  </head>
+  <body class="font-sans text-slate-900 bg-white antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
