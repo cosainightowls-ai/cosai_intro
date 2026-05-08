@@ -37,7 +37,7 @@ export default function Footer () {
             <h4 className="text-white text-sm font-semibold mb-4">Company</h4>
             <ul className="space-y-2.5">
               <li><Link to="/blog" className="text-slate-400 text-sm hover:text-brand-400 transition-colors">Blog</Link></li>
-              <li><a href="#" className="text-slate-400 text-sm hover:text-brand-400 transition-colors">About</a></li>
+              <li><Link to="/" className="text-slate-400 text-sm hover:text-brand-400 transition-colors">About</Link></li>
               <li><Link to="/privacy" className="text-slate-400 text-sm hover:text-brand-400 transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="text-slate-400 text-sm hover:text-brand-400 transition-colors">Terms of Service</Link></li>
             </ul>

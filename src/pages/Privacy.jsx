@@ -61,7 +61,7 @@ export default function Privacy () {
           <p>We use industry-standard safeguards (encryption in transit, access controls, restricted accounts) to protect information. No method of transmission or storage is 100% secure, and we cannot guarantee absolute security.</p>
 
           <h2>6. Your rights and choices</h2>
-          <p>Depending on where you live, you may have rights to access, correct, delete, or restrict use of your personal information, and to object to certain processing. To exercise any of these rights, email us at <a href="mailto:hello@cosai.app">hello@cosai.app</a>. You can unsubscribe from the waitlist at any time by replying to any email we send you or by contacting us.</p>
+          <p>Depending on where you live, you may have rights to access, correct, delete, or restrict use of your personal information, and to object to certain processing. To exercise any of these rights, email us at <a href="mailto:cosainightowls@gmail.com">cosainightowls@gmail.com</a>. You can unsubscribe from the waitlist at any time by replying to any email we send you or by contacting us.</p>
 
           <h2>7. Children</h2>
           <p>COSAI is not directed to children under 13 (or the equivalent minimum age in your jurisdiction). We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, contact us and we will delete it.</p>
@@ -73,10 +73,10 @@ export default function Privacy () {
           <p>We may update this Privacy Policy from time to time. When we do, we will revise the "Last updated" date at the top. Material changes will be highlighted on the site or sent to your waitlist email.</p>
 
           <h2>10. Contact</h2>
-          <p>Questions about this policy or our data practices? Email <a href="mailto:hello@cosai.app">hello@cosai.app</a>.</p>
+          <p>Questions about this policy or our data practices? Email <a href="mailto:cosainightowls@gmail.com">cosainightowls@gmail.com</a>.</p>
 
           <div className="mt-16 pt-8 border-t border-slate-200">
-            <Link to="/" className="text-sm text-slate-500 hover:text-brand-600 transition-colors">← Back to home</Link>
+            <Link to="/" className="text-sm text-slate-500 hover:text-brand-600 transition-colors">Back to home</Link>
           </div>
         </article>
       </section>

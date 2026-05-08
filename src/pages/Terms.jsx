@@ -76,10 +76,10 @@ export default function Terms () {
           <p>We may update these Terms from time to time. When we do, we will revise the "Last updated" date at the top. Continued use of the Service after changes take effect constitutes acceptance of the updated Terms.</p>
 
           <h2>14. Contact</h2>
-          <p>Questions about these Terms? Email <a href="mailto:hello@cosai.app">hello@cosai.app</a>.</p>
+          <p>Questions about these Terms? Email <a href="mailto:cosainightowls@gmail.com">cosainightowls@gmail.com</a>.</p>
 
           <div className="mt-16 pt-8 border-t border-slate-200">
-            <Link to="/" className="text-sm text-slate-500 hover:text-brand-600 transition-colors">← Back to home</Link>
+            <Link to="/" className="text-sm text-slate-500 hover:text-brand-600 transition-colors">Back to home</Link>
           </div>
         </article>
       </section>
